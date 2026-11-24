@@ -1,12 +1,30 @@
 #!/bin/bash
 
-EMPTY_STRING="";
-
-if [[ -z $1 ]]; then
-    echo "Please enter the path of a file to read out as your first argument.";
-else
-    FILE_CONTENT=$(cat $1);
-    echo "$FILE_CONTENT";
+if [ $# -ne 2 ]; then
+    echo "Error (Invalid amount of arguments) Try: $0 <file> <key>" >&2;
+    exit 1;
 fi
 
-$SHELL;
+FILE="$1";
+KEY="$2";
+
+if [ ! -f "$FILE" ]; then
+    echo "Error: File '$FILE' not found" >&2;
+    exit 1;
+fi
+
+LINE=$(grep -m 1 -E "\"${KEY}\"[[:space:]]*:" "$FILE") || {
+    echo "Error: Key '$KEY' not found" >&2;
+    exit 1;
+}
+
+VALUE=${LINE#*:};
+VALUE=${VALUE%$'\r'};
+VALUE="${VALUE#"${VALUE%%[![:space:]]*}"}";
+VALUE="${VALUE%"${VALUE##*[![:space:]]}"}";
+
+VALUE=${VALUE%,};
+VALUE=${VALUE#\"};
+VALUE=${VALUE%\"};
+
+echo "$VALUE";

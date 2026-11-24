@@ -1,0 +1,25 @@
+baseURL = "https://example.com/"
+languageCode = "en-us"
+title = "My Hugo Site"
+theme = "hugo-theme"
+[params]
+description = "A modern website"
+author = "Developer"
+dateFormat = "January 2, 2006"
+[params.social]
+twitter = "username"
+github = "username"
+email = "contact@example.com"
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = 2
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 3
